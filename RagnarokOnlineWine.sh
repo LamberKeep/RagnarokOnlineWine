@@ -160,11 +160,13 @@ function create_shortcuts
 
 	case ${OPERATING_SYSTEM} in
 		Darwin)
-			echo "#!/bin/bash"  >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command"
-			echo "" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command"
-			echo "wineserver -k " >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command"
-			echo "cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command"
-			echo "WINEDEBUG=warn+all,-d3d,-d3d_perf,-wgl,-ntdll wine \"${RAGNAROK_ONLINE_GAME_EXECUTABLE}\"" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command"
+			cat > "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command" << EOL
+#!/bin/bash
+
+wineserver -k
+cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}
+WINEDEBUG=warn+all,-d3d,-d3d_perf,-wgl,-ntdll wine \"${RAGNAROK_ONLINE_GAME_EXECUTABLE}\"
+EOL
 			sips -s format icns "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/${RAGNAROK_ONLINE_ICON}" --out tmpicns.icns
 			echo "read 'icns' (-16455) \"tmpicns.icns\";" >> tmpicns.rsrc
 			Rez -a tmpicns.rsrc -o "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command"
@@ -173,11 +175,13 @@ function create_shortcuts
 			rm -f tmpicns.rsrc
 			chmod u+x "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.command"
 
-			echo "#!/bin/bash"  >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.command"
-			echo "" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.command"
-			echo "wineserver -k " >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.command"
-			echo "cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.command"
-			echo "WINEDEBUG=warn+all wine \"${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}\"" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.command"
+			cat > "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.command" << EOL
+#!/bin/bash
+
+wineserver -k
+cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}
+WINEDEBUG=warn+all wine \"${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}\"
+EOL
 			sips -s format icns "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/${RAGNAROK_ONLINE_ICON}" --out tmpicns.icns
 			echo "read 'icns' (-16455) \"tmpicns.icns\";" >> tmpicns.rsrc
 			Rez -a tmpicns.rsrc -o "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.command"
@@ -188,38 +192,46 @@ function create_shortcuts
 			;;
 
 		Linux)
-			echo "#!/bin/bash"  >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh"
-			echo "" >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh"
-			echo "wineserver -k " >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh"
-			echo "cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}" >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh"
-			echo "WINEDEBUG=warn+all,-d3d,-d3d_perf,-wgl,-ntdll wine \"${RAGNAROK_ONLINE_GAME_EXECUTABLE}\"" >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh"
+			cat > "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh" << EOL
+#!/bin/bash
 
-			echo "#!/usr/bin/env xdg-open"  >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "[Desktop Entry]" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "Version=1.0" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "Type=Application" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "Terminal=true" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "Exec=bash $HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "Name=${RAGNAROK_ONLINE_GAME_EXECUTABLE}" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
-			echo "Icon=$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/${RAGNAROK_ONLINE_ICON}" >> "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
+wineserver -k
+cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}
+WINEDEBUG=warn+all,-d3d,-d3d_perf,-wgl,-ntdll·wine·\"${RAGNAROK_ONLINE_GAME_EXECUTABLE}\"
+EOL
+
+			cat > "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop" << EOL
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+Exec=bash $HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_game.sh
+Name=${RAGNAROK_ONLINE_GAME_EXECUTABLE}
+Icon=$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/${RAGNAROK_ONLINE_ICON}
+EOL
 			chmod +x "${RAGNAROK_ONLINE_GAME_EXECUTABLE}.desktop"
 
-			echo "#!/bin/bash"  >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh"
-			echo "" >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh"
-			echo "wineserver -k " >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh"
-			echo "cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}" >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh"
-			echo "WINEDEBUG=warn+all wine \"${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}\"" >> "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh"
+			cat > "$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh" << EOL
+#!/bin/bash
 
-			echo "#!/usr/bin/env xdg-open"  >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "[Desktop Entry]" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "Version=1.0" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "Type=Application" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "Terminal=false" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "Exec=bash $HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "Name=${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
-			echo "Icon=$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/${RAGNAROK_ONLINE_ICON}" >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
+wineserver -k 
+cd \$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}
+WINEDEBUG=warn+all wine \"${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}\"
+EOL
+
+			cat > "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop" << EOL
+#!/usr/bin/env xdg-open"  >> "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=bash $HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/start_patcher.sh
+Name=${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}
+Icon=$HOME/.wine/drive_c/${RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH}/${RAGNAROK_ONLINE_ICON}
+EOL
 			chmod +x "${RAGNAROK_ONLINE_PATCHER_EXECUTABLE}.desktop"
 			;;
 		esac
