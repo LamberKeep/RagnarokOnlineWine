@@ -56,9 +56,9 @@ function check_operating_system
 
 function check_wine_version
 {
-	current_wine_major=$(wine --version | sed -nE "s,^wine-([[:digit:]])\.([[:digit:]])\.([[:digit:]]),\1,p")
-	current_wine_minor=$(wine --version | sed -nE "s,^wine-([[:digit:]])\.([[:digit:]])\.([[:digit:]]),\2,p")
-	current_wine_patch=$(wine --version | sed -nE "s,^wine-([[:digit:]])\.([[:digit:]])\.([[:digit:]]),\3,p")
+	current_wine_major=$(($(wine --version | cut -c 6- | cut -d '.' -f 1)))  
+	current_wine_minor=$(($(wine --version | cut -c 6- | cut -d '.' -f 1)))  
+	current_wine_patch=$(($(wine --version | cut -c 6- | cut -d '.' -f 1)))  
 
 	if (( ${current_wine_major} >= ${REQUIRED_WINE_MAJOR} )); then
 		if (( ${current_wine_minor} >= ${REQUIRED_WINE_MINOR} )); then
