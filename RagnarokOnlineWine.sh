@@ -1,21 +1,32 @@
 #!/bin/bash
 
+# CONFIGURATION
+
+# Link from where the game will be downloaded
 RAGNAROK_ONLINE_DOWNLOAD_LOCATION=https://www.example.com/download/exampleInstaller.exe
+# A filename of the game installer
 RAGNAROK_ONLINE_INSTALLATION_EXECUTABLE=exampleInstaller.exe
+# The path where the game will be installed in the wine folder
 RAGNAROK_ONLINE_DEFAULT_INSTALL_PATH="Games/exampleRO"
+# A filename of the game executable
 RAGNAROK_ONLINE_GAME_EXECUTABLE=exampleRO.exe
+# A filename of the game patcher
 RAGNAROK_ONLINE_PATCHER_EXECUTABLE=Example\ Patcher.exe
+# A filename of game icon
 RAGNAROK_ONLINE_ICON=example.png
+# Link from where the game icon will be downloaded
 RAGNAROK_ONLINE_ICON_LOCATION=https://www.example.com/images/example.png
+
+# VARIABLES
 
 REQUIRED_WINE_MAJOR=4
 REQUIRED_WINE_MINOR=0
 REQUIRED_WINE_PATCH=2
 
-
 WINETRICKS_DOWNLOAD_LOCATION=https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 OPERATING_SYSTEM=$(uname -s)
 
+# CODE
 
 function FATAL_ERROR
 {
